@@ -1,0 +1,16 @@
+# Visual Studio
+.vs/
+**/.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# .NET build outputs
+**/bin/
+**/obj/
+
+# Node
+**/node_modules/
+**/dist/
+**/.vite/

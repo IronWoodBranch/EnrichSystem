@@ -1,0 +1,6 @@
+@EnrichSystem.Api_HostAddress = http://localhost:5148
+
+GET {{EnrichSystem.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
