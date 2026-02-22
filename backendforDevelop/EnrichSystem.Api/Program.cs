@@ -1,4 +1,8 @@
 using EnrichSystem.Infrastructure.DbContexts;
+using EnrichSystem.Infrastructure.Repositories.QuestsRepo;
+using EnrichSystem.Usecase.Implementation.QuestImp;
+using EnrichSystem.Usecase.Interfaces.Repositories.Quests;
+using EnrichSystem.Usecase.Interfaces.UseCase.QuestsInterface;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +21,9 @@ var connectionString =
 
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IQuestRepository, QuestRepository>();
+builder.Services.AddScoped<IQuestUsecase, QuestUsecase>();
 
 var app = builder.Build();
 

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EnrichSystem.Domain\EnrichSystem.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

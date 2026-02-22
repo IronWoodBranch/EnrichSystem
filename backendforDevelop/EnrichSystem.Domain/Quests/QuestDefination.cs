@@ -14,6 +14,8 @@ namespace EnrichSystem.Domain.Quests
 
         public CurrencyType CurrencyType { get; set; }
 
+        public int Amount { get; set; }
+        public int Condition { get; set; }
 
     }
 }

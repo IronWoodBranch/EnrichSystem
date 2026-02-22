@@ -16,5 +16,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\EnrichSystem.Domain\EnrichSystem.Domain.csproj" />
+		<ProjectReference Include="..\EnrichSystem.Usecase\EnrichSystem.Usecase.csproj" />
 	</ItemGroup>
+
 </Project>

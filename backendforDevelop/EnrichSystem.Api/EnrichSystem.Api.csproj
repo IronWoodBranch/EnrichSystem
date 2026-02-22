@@ -22,8 +22,4 @@
     <ProjectReference Include="..\EnrichSystem.Infrastructure\EnrichSystem.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
