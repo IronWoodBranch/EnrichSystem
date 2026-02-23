@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Implementation\QuestCompleteImp\QuestCompleteUsecase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EnrichSystem.Domain\EnrichSystem.Domain.csproj" />
   </ItemGroup>
 
