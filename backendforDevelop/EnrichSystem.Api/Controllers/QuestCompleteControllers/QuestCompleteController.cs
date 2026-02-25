@@ -19,21 +19,21 @@ namespace EnrichSystem.Api.Controllers.QuestCompleteControllers
         /// </summary>
         /// <param name="createObj"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<IActionResult> CreateQuestComplete([FromBody] QuestComplete createObj)
         {
             var result = await _questCompleteUsecase.CreateQuestComplete(createObj);
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("Update")]
         public async Task<IActionResult> UpdateQuestComplete([FromBody] QuestComplete updateObj)
         {
             var result = await _questCompleteUsecase.UpdateQuestComplete(updateObj);
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("CompleteQuest")]
         public async Task<IActionResult> CompleteQuest([FromBody] QuestComplete completeObj)
         {
             var result = await _questCompleteUsecase.CompleteQuest(completeObj);

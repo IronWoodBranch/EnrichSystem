@@ -1,10 +1,14 @@
 using EnrichSystem.Infrastructure.DbContexts;
+using EnrichSystem.Infrastructure.Repositories.LedgersRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsCompleteRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsRepo;
+using EnrichSystem.Usecase.Implementation.LedgerImp;
 using EnrichSystem.Usecase.Implementation.QuestCompleteImp;
 using EnrichSystem.Usecase.Implementation.QuestImp;
+using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.QuestCompletes;
 using EnrichSystem.Usecase.Interfaces.Repositories.Quests;
+using EnrichSystem.Usecase.Interfaces.UseCase.LedgerInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.QuestCompleteInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.QuestsInterface;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +34,8 @@ builder.Services.AddScoped<IQuestRepository, QuestRepository>();
 builder.Services.AddScoped<IQuestUsecase, QuestUsecase>();
 builder.Services.AddScoped<IQuestCompleteRepository,QuestCompleteRepository>();
 builder.Services.AddScoped<IQuestCompleteUsecase, QuestCompleteUsecase>();
+builder.Services.AddScoped<ILedgerRepository, LegerRepository>();
+builder.Services.AddScoped<ILedgerUsecase, LedgerUsecase>();
 
 var app = builder.Build();
 
