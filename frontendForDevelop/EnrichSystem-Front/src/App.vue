@@ -1,72 +1,79 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-import { ref, computed, onMounted } from 'vue'
-import axios from 'axios'
+import { ref, computed } from 'vue'
+
 interface TaskItem {
   id: number
   title: string
   type: 'pp' | 'cp'
 }
-const tasks = ref<TaskItem[]>([])
 
-const ppTasks = computed(()=>{
-  return tasks.value.filter(x=>x.type == 'pp')
+const tasks = ref<TaskItem[]>([
+  { id: 1, title: '讨伐墓园里的骷髅兵', type: 'pp' },
+  { id: 2, title: '给酒馆老板送一桶麦酒', type: 'cp' },
+  { id: 3, title: '调查北边森林的狼嚎', type: 'pp' },
+  { id: 4, title: '替铁匠收集3块铁矿石', type: 'cp' },
+  { id: 5, title: '护送商人到西门集市', type: 'pp' }
+])
+
+const ppTasks = computed(() => {
+  return tasks.value.filter(x => x.type === 'pp')
 })
 
-const cpTasks = computed(()=>{
-  return tasks.value.filter(x=> x.type == 'cp')
-})
-onMounted(async()=>
-{
-  try
-  {
-    //todo:把自己的接口写出来
-    const response = await axios.get('xxx/xxx')
-  }
-  catch(error){
-    //todo:描述换成dnd风格
-    console.error('获取任务失败',error)
-  }
+const cpTasks = computed(() => {
+  return tasks.value.filter(x => x.type === 'cp')
 })
 </script>
 
 <template>
   <div class="page">
     <div class="board">
-      <div class = "task-column">
-        <h2>pp任务</h2>
-        <div v-for="task in ppTasks":key="task.id"></div>
+      <div class="task-column">
+        <h2>PP任务</h2>
+        <div
+          v-for="task in ppTasks"
+          :key="task.id"
+          class="task-card"
+        >
+          {{ task.title }}
+        </div>
+      </div>
+
+      <div class="task-column">
+        <h2>CP任务</h2>
+        <div
+          v-for="task in cpTasks"
+          :key="task.id"
+          class="task-card"
+        >
+          {{ task.title }}
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <style scoped>
-header {
-  line-height: 1.5;
+.page {
+  min-height: 100vh;
+  background-color: black;
+  color: white;
+  padding: 24px;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
+.board {
+  display: flex;
+  gap: 24px;
 }
 
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
+.task-column {
+  flex: 1;
+  border: 1px solid #666;
+  padding: 16px;
+}
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
+.task-card {
+  border: 1px solid #999;
+  padding: 8px;
+  margin-bottom: 8px;
 }
 </style>
