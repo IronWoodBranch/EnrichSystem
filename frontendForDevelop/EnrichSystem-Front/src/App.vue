@@ -8,6 +8,10 @@ interface TaskItem {
   title: string
   type: number
 }
+interface SummaryItem{
+  coppers: number
+  platinum: number
+}
 
 // const tasks = ref<TaskItem[]>([
 //   { id: 1, title: '讨伐墓园里的骷髅兵', type: 'pp' },
@@ -20,6 +24,7 @@ interface TaskItem {
 
 //todo:等确定下来之后，换成真实请求
 const tasks = ref<TaskItem[]>([])
+const summaries = ref<SummaryItem>()
 
 const ppTasks = computed(()=>{
   return tasks.value.filter(x=>x.type == 0)
@@ -37,11 +42,19 @@ onMounted(async()=>
     const response = await axios.get('http://localhost:5148/api/Quest')
     console.log(response.data)
     tasks.value = response.data.map(
-      (x:any)=>
+      (x:any)=>( //在js里面，这个括号能包一个对象出去
       {
-        
+        id:x.id,
+        title:x.description,
+        type: x.currencyType
       }
-    )
+    ))
+    
+    console.log('summary start')
+    const summaryRes = await axios.get('http://localhost:5148/api/Ledger/summary/1')
+    console.log(summaryRes.data)
+    summaries.value = summaryRes.data
+    
   }
   catch(error){
     //todo:描述换成dnd风格
@@ -55,16 +68,20 @@ onMounted(async()=>
     <div class="board">
       <div class = "task-column">
         <h2>pp任务</h2>
-        <div v-for="task in ppTasks":key="task.id">
+        <div v-for="task in ppTasks" :key="task.id" class ="task-card">
                     {{ task.title }}
         </div>
       </div>
       <div class="task-column">
         <h2>cp任务</h2>
-            <div v-for="task in cpTasks":key="task.id">         
+            <div v-for="task in cpTasks" :key="task.id" class ="task-card">         
                {{ task.title }}
             </div>
       </div>
+    <div class="summary-show">
+        pp:{{ summaries?.platinum }}
+        cp:{{ summaries?.coppers }}
+    </div>
     </div>
   </div>
 </template>
@@ -85,7 +102,7 @@ onMounted(async()=>
 
 .task-column {
   flex: 1;
-  border: 1px solid #666;
+  border: 1px solid #69215d;
   padding: 16px;
 }
 
@@ -93,5 +110,15 @@ onMounted(async()=>
   border: 1px solid #999;
   padding: 8px;
   margin-bottom: 8px;
+}
+.summary-show {
+  /* fixed不随页面移动，固定在某个地方，这就固定到了右下角 */
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  border: 1px solid #6f5a3a;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #d8c089;
+  padding: 12px 16px;
 }
 </style>
