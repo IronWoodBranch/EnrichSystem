@@ -37,8 +37,19 @@ builder.Services.AddScoped<IQuestCompleteUsecase, QuestCompleteUsecase>();
 builder.Services.AddScoped<ILedgerRepository, LegerRepository>();
 builder.Services.AddScoped<ILedgerUsecase, LedgerUsecase>();
 
-var app = builder.Build();
+//跨域配置
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
+var app = builder.Build();
+app.UseCors("AllowAll");
 // Swagger only in Development
 if (app.Environment.IsDevelopment())
 {

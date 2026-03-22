@@ -1,4 +1,5 @@
-﻿using EnrichSystem.Domain.Ledgers;
+﻿using EnrichSystem.Domain.Enums;
+using EnrichSystem.Domain.Ledgers;
 using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.LedgerInterface;
 using System;
@@ -38,6 +39,18 @@ namespace EnrichSystem.Usecase.Implementation.LedgerImp
         {
             var result = await _ledgerRepository.GetLedgerById(id);
             return result;
+        }
+
+        public async Task<Balance> GetSummaries(int id)
+        {
+            var ledgers = await GetAllLedgers(id);
+            var ppSumary = ledgers.Where(x => x.CurrencyType == (int)CurrencyType.Sun).Sum(x => x.Amount);
+            var cpSumary = ledgers.Where(x => x.CurrencyType == (int)CurrencyType.Copper).Sum(x => x.Amount);
+            return new Balance
+            {
+                Coppers = cpSumary,
+                Platinum = ppSumary
+            };
         }
 
         public async Task<Ledger> UpdateLedger(Ledger updateObj)

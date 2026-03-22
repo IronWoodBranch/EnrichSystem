@@ -26,5 +26,7 @@ namespace EnrichSystem.Usecase.Interfaces.UseCase.LedgerInterface
         /// <param name="id"></param>
         /// <returns></returns>
         public Task<Ledger> GetLedgerById(int id);
+
+        public Task<Balance> GetSummaries(int id);
     }
 }

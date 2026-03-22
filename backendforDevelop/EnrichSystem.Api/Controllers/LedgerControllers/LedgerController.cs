@@ -34,6 +34,12 @@ namespace EnrichSystem.Api.Controllers.LedgerControllers
             var result = await _ledgerUsecase.CreateLedger(createObj);
             return Ok(result);
         }
-        
+
+        [HttpGet("summary/{id:int}")]
+        public async Task<IActionResult> GetSummaryById(int id)
+        {
+            var result = await _ledgerUsecase.GetSummaries(id);
+            return Ok(result);
+        }
     }
 }
