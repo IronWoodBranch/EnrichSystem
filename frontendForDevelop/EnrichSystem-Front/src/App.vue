@@ -13,14 +13,6 @@ interface SummaryItem{
   platinum: number
 }
 
-// const tasks = ref<TaskItem[]>([
-//   { id: 1, title: '讨伐墓园里的骷髅兵', type: 'pp' },
-//   { id: 2, title: '给酒馆老板送一桶麦酒', type: 'cp' },
-//   { id: 3, title: '调查北边森林的狼嚎', type: 'pp' },
-//   { id: 4, title: '替铁匠收集3块铁矿石', type: 'cp' },
-//   { id: 5, title: '护送商人到西门集市', type: 'pp' }
-// ])
-
 
 //todo:等确定下来之后，换成真实请求
 const tasks = ref<TaskItem[]>([])
@@ -33,6 +25,18 @@ const ppTasks = computed(()=>{
 const cpTasks = computed(()=>{
   return tasks.value.filter(x=> x.type == 1)
 })
+
+function completeTask(task:TaskItem)
+{
+  //todo:把获得的奖励填充进来
+  alert("完成委托,获得奖励");
+}
+
+function postQuest(){
+  alert("发布任务")
+  //todo:发布任务也做出来
+}
+
 onMounted(async()=>
 {
   try
@@ -69,7 +73,8 @@ onMounted(async()=>
       <div class = "task-column">
         <h2>pp任务</h2>
         <div v-for="task in ppTasks" :key="task.id" class ="task-card">
-                    {{ task.title }}
+            <span>{{ task.title }}</span>
+            <button class="complete-button" @click = "completeTask(task)">完成</button>
         </div>
       </div>
       <div class="task-column">
@@ -81,6 +86,9 @@ onMounted(async()=>
     <div class="summary-show">
         pp:{{ summaries?.platinum }}
         cp:{{ summaries?.coppers }}
+    </div>
+    <div class="post-quest">
+      <button class="complete-button" @click = "postQuest">发布任务</button>
     </div>
     </div>
   </div>
@@ -107,6 +115,9 @@ onMounted(async()=>
 }
 
 .task-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   border: 1px solid #999;
   padding: 8px;
   margin-bottom: 8px;
@@ -121,4 +132,52 @@ onMounted(async()=>
   color: #d8c089;
   padding: 12px 16px;
 }
+.post-quest{
+  position: fixed;
+  right: 15px;
+  bottom: 75px;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #d8c089;
+  padding: 12px 16px;
+}
+
+.complete-button {
+  padding: 8px 16px;
+  border: 2px solid #5a3b1d;
+  border-radius: 4px;
+  background: linear-gradient(to bottom, #8b5a2b, #6b3f1d);
+  color: #f5e6c8;
+  font-size: 14px;
+  font-weight: bold;
+  font-family: serif;
+  cursor: pointer;
+  box-shadow:
+    0 3px 0 #3e2412,
+    inset 0 1px 0 rgba(255, 240, 200, 0.25);
+  text-shadow: 1px 1px 0 #3a2412;
+  transition: all 0.15s ease;
+}
+
+.complete-button:hover {
+  background: linear-gradient(to bottom, #9c6a38, #7a4a24);
+  color: #fff3d6;
+}
+
+.complete-button:active {
+  transform: translateY(2px);
+  box-shadow:
+    0 1px 0 #3e2412,
+    inset 0 1px 0 rgba(255, 240, 200, 0.2);
+}
+
+.complete-button:disabled {
+  background: linear-gradient(to bottom, #6e6254, #4f463d);
+  border-color: #4a4036;
+  color: #cbbda3;
+  cursor: not-allowed;
+  box-shadow: none;
+  text-shadow: none;
+  opacity: 0.8;
+}
+
 </style>
