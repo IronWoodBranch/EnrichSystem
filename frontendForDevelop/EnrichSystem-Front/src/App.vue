@@ -3,6 +3,8 @@ import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import { ref, computed, onMounted } from 'vue'
 import axios from 'axios'
+import DailySettlementModal from '@/components/DailySettlementModal.vue'
+
 interface TaskItem {
   id: number
   title: string
@@ -12,6 +14,20 @@ interface SummaryItem{
   coppers: number
   platinum: number
 }
+
+//每日结算
+const showSettlementModal = ref(false)
+//开
+function openSettlementModal(){
+  showSettlementModal.value = true
+}
+//关
+function closeSettlementModal()
+{
+  showSettlementModal.value =false
+}
+
+
 
 
 //todo:等确定下来之后，换成真实请求
@@ -90,6 +106,11 @@ onMounted(async()=>
     <div class="post-quest">
       <button class="complete-button" @click = "postQuest">发布任务</button>
     </div>
+    <!-- 每日结算 -->
+     <div>
+        <button class="routine-class" @click="openSettlementModal">今日结算</button>
+        <DailySettlementModal v-if="showSettlementModal" @close="closeSettlementModal"/>
+     </div>
     </div>
   </div>
 </template>
@@ -132,6 +153,16 @@ onMounted(async()=>
   color: #d8c089;
   padding: 12px 16px;
 }
+.routine-class{
+  position: fixed;
+  right: 24px;
+  bottom: 250px;
+  border: 1px solid #6f5a3a;
+  background-color: rgba(0, 0, 0, 0.85);
+  color: #d8c089;
+  padding: 12px 16px;
+}
+
 .post-quest{
   position: fixed;
   right: 15px;
