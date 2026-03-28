@@ -6,6 +6,15 @@
     function closeModal() {
       emit('close')
     }
+
+    const DailySettlementList = [
+      {key : "sleeptime", question:"昨天几点睡",type:"time"},
+      { key: 'roomClean', question: '房间是否整洁？', type: 'boolean' },
+      { key: 'japaneseStudy', question: '日语是否学习？', type: 'boolean' },
+      { key: 'running', question: '是否跑步', type: 'boolean' },
+      { key: 'laundry', question: '洗衣服', type: 'boolean' },
+      { key: 'japaneseStudy', question: '扔垃圾', type: 'boolean' },
+    ]
 </script>
 
 
