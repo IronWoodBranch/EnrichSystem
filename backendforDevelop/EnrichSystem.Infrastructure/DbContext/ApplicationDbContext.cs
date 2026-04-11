@@ -1,4 +1,5 @@
-﻿using EnrichSystem.Domain.Ledgers;
+﻿using EnrichSystem.Domain.DailyRoutines;
+using EnrichSystem.Domain.Ledgers;
 using EnrichSystem.Domain.QuestCompletes;
 using EnrichSystem.Domain.Quests;
 using Microsoft.EntityFrameworkCore;
@@ -13,6 +14,7 @@ namespace EnrichSystem.Infrastructure.DbContexts
         public DbSet<Quest> Quests { get; set; }
         public DbSet<QuestComplete> QuestCompletes{ get; set; }
         public DbSet<Ledger> Ledgers {  get; set; }
+        public DbSet<DailyRoutine> DailyRoutines { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

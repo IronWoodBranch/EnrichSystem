@@ -144,10 +144,7 @@ async function submitSettlement() {
           </template>
 
           <template v-else-if="currentQuestion.type === 'time'">
-            <input
-              v-model="answers.sleeptime"
-              type="time"
-            />
+            <input v-model="answers.sleeptime" type="time" />
           </template>
         </div>
 
@@ -155,19 +152,11 @@ async function submitSettlement() {
           <button @click="closeModal">取消</button>
           <button v-if="currentStep > 0" @click="goPrev">上一步</button>
 
-          <button
-            v-if="!isLastStep"
-            :disabled="!canGoNext()"
-            @click="goNext"
-          >
+          <button v-if="!isLastStep" :disabled="!canGoNext()" @click="goNext">
             下一步
           </button>
 
-          <button
-            v-else
-            :disabled="!canGoNext() || isSubmitting"
-            @click="submitSettlement"
-          >
+          <button v-else :disabled="!canGoNext() || isSubmitting" @click="submitSettlement">
             确认结算
           </button>
         </div>
