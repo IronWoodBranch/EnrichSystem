@@ -26,6 +26,16 @@ function closeSettlementModal()
 {
   showSettlementModal.value =false
 }
+function handdleSettlementSubmitted(result:
+  {
+    earnedPlatinum:number
+    earnedCopper:number
+    completedItems:string[]
+    sleepTime:string
+  }){
+    console.log('今日计算完成：',result)
+    showSettlementModal.value = false
+  }
 
 
 
@@ -109,7 +119,11 @@ onMounted(async()=>
     <!-- 每日结算 -->
      <div>
         <button class="routine-class" @click="openSettlementModal">今日结算</button>
-        <DailySettlementModal v-if="showSettlementModal" @close="closeSettlementModal"/>
+        <DailySettlementModal 
+          v-if="showSettlementModal" 
+          @close="closeSettlementModal" 
+          @submitted="handdleSettlementSubmitted"
+          />
      </div>
     </div>
   </div>
