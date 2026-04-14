@@ -17,20 +17,23 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             _dbRepo = dbRepo;
         }
 
-        public async Task CreateDailyRoutine(DailyRoutine createObj)
+        public async Task<DailyRoutine> CreateDailyRoutine(DailyRoutine createObj)
         {
             var res = _dbRepo.CreateNewRoutine(createObj);
-
+            await res;
+            return createObj;
         }
 
-        public async Task UpdateDailyRoutine(DailyRoutine updateObj)
+        public async Task<DailyRoutine> UpdateDailyRoutine(DailyRoutine updateObj)
         {
             var res = _dbRepo.UpdateRoutine(updateObj);
+            return updateObj;
         }
 
-        public async Task DeleteDailyRoutine(DailyRoutine deleteObj)
+        public async Task<DailyRoutine> DeleteDailyRoutine(DailyRoutine deleteObj)
         {
             await _dbRepo.DeleteRoutine(deleteObj);
+            return deleteObj;
         }
 
         public Task<DailyRoutine> GetDailyRoutine(int id)

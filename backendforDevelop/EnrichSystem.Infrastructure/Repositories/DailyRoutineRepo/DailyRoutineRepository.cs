@@ -19,7 +19,7 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo
 
         public async Task CreateNewRoutine(DailyRoutine dailyRoutine)
         {
-            _context.Add(dailyRoutine);
+            await _context.AddAsync(dailyRoutine);
             await _context.SaveChangesAsync();
         }
 
