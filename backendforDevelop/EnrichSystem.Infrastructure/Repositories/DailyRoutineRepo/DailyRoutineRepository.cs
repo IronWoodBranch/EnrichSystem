@@ -44,6 +44,12 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo
             return result;
         }
 
+        public async Task<IEnumerable<DailyRoutine>> GetRoutinesByIds(IEnumerable<int> ids)
+        {
+            var result = _context.DailyRoutines.Where(x => ids.Contains(x.Id)).ToList();
+            return result;
+        }
+
         /// <summary>
         /// 
         /// </summary>

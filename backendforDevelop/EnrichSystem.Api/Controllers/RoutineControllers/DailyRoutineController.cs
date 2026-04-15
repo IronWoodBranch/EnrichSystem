@@ -1,4 +1,5 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
+using EnrichSystem.Usecase.Dtos.DailyRoutineDtos.CompleteListDtos;
 using EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,9 +17,10 @@ namespace EnrichSystem.Api.Controllers.RoutineControllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CompleteDailyRoutines([FromBody] List<DailyRoutine> routines)
+        public async Task<IActionResult> CompleteDailyRoutines([FromBody] DailyRoutineCompleteListDto routines)
         {
             //todo :完成
+            await _dailyRoutineUsecase.CompleteDailyRoutine(routines);
 
             return Ok();
         }

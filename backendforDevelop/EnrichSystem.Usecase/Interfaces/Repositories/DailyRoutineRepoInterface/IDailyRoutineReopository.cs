@@ -16,6 +16,13 @@ namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface
         public Task<IEnumerable<DailyRoutine>> GetAllRoutines();
 
         /// <summary>
+        /// 根据IdList拿到
+        /// </summary>
+        /// <param name="ids"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<DailyRoutine>> GetRoutinesByIds(IEnumerable<int> ids);
+
+        /// <summary>
         /// 增加
         /// </summary>
         /// <returns></returns>

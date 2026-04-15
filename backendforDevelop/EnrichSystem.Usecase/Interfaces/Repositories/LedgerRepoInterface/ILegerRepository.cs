@@ -10,6 +10,8 @@ namespace EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface
     public interface ILedgerRepository
     {
         public Task<Ledger> CreateLedger(Ledger createObj);
+
+        public Task<int> BulkInsert(IEnumerable<Ledger> insertObj);
         public Task<Ledger> UpdateLedger(Ledger updateObj);
         public Task<Ledger> DeleteLedger(Ledger deleteObj);
 

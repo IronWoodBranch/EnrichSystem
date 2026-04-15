@@ -16,6 +16,19 @@ namespace EnrichSystem.Infrastructure.Repositories.LedgersRepo
         {
             _context = context;
         }
+
+        /// <summary>
+        /// 批量插入数据
+        /// </summary>
+        /// <param name="insertObj"></param>
+        /// <returns></returns>
+        public async Task<int> BulkInsert(IEnumerable<Ledger> insertObj)
+        {
+            _context.Ledgers.AddRange(insertObj);
+            var res = await _context.SaveChangesAsync();
+            return res;
+        }
+
         public async Task<Ledger> CreateLedger(Ledger createObj)
         {
             _context.Ledgers.Add(createObj);
