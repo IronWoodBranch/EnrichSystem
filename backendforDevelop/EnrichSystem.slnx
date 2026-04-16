@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="EnrichSystem.Api/EnrichSystem.Api.csproj" />
+  <Project Path="EnrichSystem.Domain/EnrichSystem.Domain.csproj" />
+  <Project Path="EnrichSystem.Infrastructure/EnrichSystem.Infrastructure.csproj" />
+  <Project Path="EnrichSystem.Usecase/EnrichSystem.Usecase.csproj" />
+</Solution>
