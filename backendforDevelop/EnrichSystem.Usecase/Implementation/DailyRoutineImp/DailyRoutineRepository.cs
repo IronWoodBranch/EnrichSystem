@@ -58,7 +58,7 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
         /// <param name="targetDailyRoutine"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
+        public async Task<DailyRoutineCompleteResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
         {
             //validate
             if (targetDailyRoutine == null || targetDailyRoutine.DailyRoutines == null || targetDailyRoutine.DailyRoutines.Count == 0)
@@ -75,7 +75,7 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             var res = await _dbRepo.GetRoutinesByIds(idList);
 
             List<Ledger> ledgerList = new List<Ledger>();
-            foreach ( var id in idList)
+            foreach (var id in idList)
             {
                 //任务定义
                 var routineDefine = res.First(x => x.Id == id);
@@ -93,7 +93,18 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
                 ledgerList.Add(ledger);
             }
             await _ledgerRepo.BulkInsert(ledgerList);
-            //todo:把完成的奖励一览list返回给前端
+            //todo1:把完成的奖励一览list返回给前端
+            //todo2:
+            return new DailyRoutineCompleteResultDto
+            {
+                Items = res.Select(x => new DailyRoutineCompleteResultItem
+                {
+                    Id = x.Id,
+                    IsCompleted = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted,
+                    RoutineName = x.Key,
+                    Amount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish
+                }).ToList()
+            };
         }
     }
 }
