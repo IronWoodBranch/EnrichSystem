@@ -2,128 +2,128 @@
 import HelloWorld from './components/HelloWorld.vue'
 import TheWelcome from './components/TheWelcome.vue'
 import { ref, computed, onMounted } from 'vue'
+import type {SettlementResult} from '@/types/DailyRoutineTypes'
 import axios from 'axios'
 import DailySettlementModal from '@/components/DailySettlementModal.vue'
+
 
 interface TaskItem {
   id: number
   title: string
   type: number
 }
-interface SummaryItem{
+
+interface SummaryItem {
   coppers: number
   platinum: number
 }
 
-//每日结算
+// 每日结算
 const showSettlementModal = ref(false)
-//开
-function openSettlementModal(){
+
+function openSettlementModal() {
   showSettlementModal.value = true
 }
-//关
-function closeSettlementModal()
-{
-  showSettlementModal.value =false
+
+function closeSettlementModal() {
+  showSettlementModal.value = false
 }
-function handdleSettlementSubmitted(result:
-  {
-    earnedPlatinum:number
-    earnedCopper:number
-    completedItems:string[]
-    sleepTime:string
-  }){
-    console.log('今日计算完成：',result)
-    showSettlementModal.value = false
-  }
 
+async function handleSettlementSubmitted(result: SettlementResult) {
+  console.log('今日计算完成：', result)
 
+  // 重新拉取余额
+  await loadSummary()
+}
 
-
-//todo:等确定下来之后，换成真实请求
+// todo:等确定下来之后，换成真实请求
 const tasks = ref<TaskItem[]>([])
 const summaries = ref<SummaryItem>()
 
-const ppTasks = computed(()=>{
-  return tasks.value.filter(x=>x.type == 0)
+const ppTasks = computed(() => {
+  return tasks.value.filter(x => x.type == 0)
 })
 
-const cpTasks = computed(()=>{
-  return tasks.value.filter(x=> x.type == 1)
+const cpTasks = computed(() => {
+  return tasks.value.filter(x => x.type == 1)
 })
 
-function completeTask(task:TaskItem)
-{
-  //todo:把获得的奖励填充进来
-  alert("完成委托,获得奖励");
+function completeTask(task: TaskItem) {
+  // todo:把获得的奖励填充进来
+  alert('完成委托,获得奖励')
 }
 
-function postQuest(){
-  alert("发布任务")
-  //todo:发布任务也做出来
+function postQuest() {
+  alert('发布任务')
+  // todo:发布任务也做出来
 }
 
-onMounted(async()=>
-{
-  try
-  {
-    console.log('request start')
-    //todo:把自己的接口写出来
-    const response = await axios.get('http://localhost:5148/api/Quest')
-    console.log(response.data)
-    tasks.value = response.data.map(
-      (x:any)=>( //在js里面，这个括号能包一个对象出去
-      {
-        id:x.id,
-        title:x.description,
-        type: x.currencyType
-      }
-    ))
-    
-    console.log('summary start')
-    const summaryRes = await axios.get('http://localhost:5148/api/Ledger/summary/1')
-    console.log(summaryRes.data)
-    summaries.value = summaryRes.data
-    
-  }
-  catch(error){
-    //todo:描述换成dnd风格
-    console.error('获取任务失败',error)
+async function loadTasks() {
+  const response = await axios.get('http://localhost:5148/api/Quest')
+  console.log(response.data)
+
+  tasks.value = response.data.map((x: any) => ({
+    id: x.id,
+    title: x.description,
+    type: x.currencyType,
+  }))
+}
+
+async function loadSummary() {
+  console.log('summary start')
+  const summaryRes = await axios.get('http://localhost:5148/api/Ledger/summary/1')
+  console.log(summaryRes.data)
+  summaries.value = summaryRes.data
+}
+
+onMounted(async () => {
+  try {
+    await loadTasks()
+    await loadSummary()
+  } catch (error) {
+    // todo:描述换成dnd风格
+    console.error('获取数据失败', error)
   }
 })
 </script>
 
+
 <template>
   <div class="page">
     <div class="board">
-      <div class = "task-column">
+      <div class="task-column">
         <h2>pp任务</h2>
-        <div v-for="task in ppTasks" :key="task.id" class ="task-card">
-            <span>{{ task.title }}</span>
-            <button class="complete-button" @click = "completeTask(task)">完成</button>
+        <div v-for="task in ppTasks" :key="task.id" class="task-card">
+          <span>{{ task.title }}</span>
+          <button class="complete-button" @click="completeTask(task)">完成</button>
         </div>
       </div>
+
       <div class="task-column">
         <h2>cp任务</h2>
-            <div v-for="task in cpTasks" :key="task.id" class ="task-card">         
-               {{ task.title }}
-            </div>
+        <div v-for="task in cpTasks" :key="task.id" class="task-card">
+          {{ task.title }}
+        </div>
       </div>
-    <div class="summary-show">
+
+      <div class="summary-show">
         pp:{{ summaries?.platinum }}
         cp:{{ summaries?.coppers }}
-    </div>
-    <div class="post-quest">
-      <button class="complete-button" @click = "postQuest">发布任务</button>
-    </div>
-    <!-- 每日结算 -->
-     <div>
+      </div>
+
+      <div class="post-quest">
+        <button class="complete-button" @click="postQuest">发布任务</button>
+      </div>
+
+      <div>
         <button class="routine-class" @click="openSettlementModal">今日结算</button>
-        <DailySettlementModal 
-          v-if="showSettlementModal" 
-          @close="closeSettlementModal" 
-          />
-     </div>
+
+        <DailySettlementModal
+          v-if="showSettlementModal"
+          @close="closeSettlementModal"
+          @submitted="handleSettlementSubmitted"
+        />
+      </div>
     </div>
   </div>
 </template>

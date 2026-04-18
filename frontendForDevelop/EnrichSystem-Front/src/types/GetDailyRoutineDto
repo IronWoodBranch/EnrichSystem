@@ -1,7 +1,0 @@
-export type GetDailyRoutineDto =
-{
-    id:number,
-    key:string,
-    name:string,
-    amount:number
-}

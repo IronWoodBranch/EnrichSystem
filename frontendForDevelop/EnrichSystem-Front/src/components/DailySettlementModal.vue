@@ -1,52 +1,22 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from 'vue'
+import type { SettlementResult, Question, GetDailyRoutineDto } from '@/types/DailyRoutineTypes'
 
 /**
  * 后端返回的每日任务 DTO
  */
-export type GetDailyRoutineDto = {
-  id: number
-  key: string
-  name: string
-  amount: number
-}
 
-/**
- * 页面里真正使用的题目结构
- */
-type Question = {
-  id: number
-  key: string
-  label: string
-  amount: number
-}
 
-/**
- * 结算完成后抛给父组件的结果
- */
-type SettlementResult = {
-  earnedPlatinum: number
-  earnedCopper: number
-  completedItems: string[]
-  submittedAnswers: {
-    dailyRoutineId: number
-    isCompleted: boolean
-  }[]
-}
-
-/**
- * 这里改成你的真实接口地址
- */
+//获取所有的日常任务
 const GET_DAILY_ROUTINE_URL = 'http://localhost:5148/api/DailyRoutine'
+//完成任务的接口发送
+const SUBMIT_DAILYROUTINE_URL = 'http://localhost:5148/api/DailyRoutine/complete'
 
 const emit = defineEmits<{
   (e: 'close'): void
   (e: 'submitted', result: SettlementResult): void
 }>()
 
-/**
- * 动态题目列表
- */
 const questions = ref<Question[]>([])
 
 /**
@@ -141,7 +111,7 @@ async function loadQuestions() {
     questions.value = mappedQuestions
     initializeAnswers(mappedQuestions)
     currentStep.value = 0
-    
+
   } catch (error) {
     console.error(error)
     loadErrorMessage.value = '获取每日任务失败，请稍后重试'
@@ -175,39 +145,42 @@ function goPrev() {
   }
 }
 
-/**
- * 这里先本地整理结果
- * 你以后要接真实 submit 接口时，
- * 就把 payload 发给后端即可
- */
+
 async function submitSettlement() {
   if (!canGoNext.value) return
 
   isSubmitting.value = true
 
   try {
-    const payload = questions.value.map((question) => ({
-      dailyRoutineId: question.id,
-      isCompleted: answers[question.key] === true,
-    }))
-
-    const completedQuestions = questions.value.filter(
-      (question) => answers[question.key] === true
-    )
-
-    const totalAmount = completedQuestions.reduce((sum, question) => {
-      return sum + question.amount
-    }, 0)
-
-    const result: SettlementResult = {
-      earnedPlatinum: 0,
-      earnedCopper: totalAmount,
-      completedItems: completedQuestions.map((question) => question.label),
-      submittedAnswers: payload,
+    const payload = {
+      dailyRoutines: questions.value.map((question) => ({
+        id: question.id,
+        isCompleted: answers[question.key] === true,
+      })),
     }
+
+    console.log('payload:', payload)
+
+    const response = await fetch(SUBMIT_DAILYROUTINE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    })
+
+    if (!response.ok) {
+      const errorText = await response.text()
+      console.error('后端返回错误内容:', errorText)
+      throw new Error(`提交失败，请稍后再试: ${response.status}`)
+    }
+
+    const result: SettlementResult = await response.json()
 
     settlementResult.value = result
     emit('submitted', result)
+  } catch (error) {
+    console.error('提交error：', error)
   } finally {
     isSubmitting.value = false
   }
@@ -284,21 +257,11 @@ onMounted(() => {
           <button type="button" @click="closeModal">取消</button>
           <button v-if="currentStep > 0" type="button" @click="goPrev">上一步</button>
 
-          <button
-            v-if="!isLastStep"
-            type="button"
-            :disabled="!canGoNext"
-            @click="goNext"
-          >
+          <button v-if="!isLastStep" type="button" :disabled="!canGoNext" @click="goNext">
             下一步
           </button>
 
-          <button
-            v-else
-            type="button"
-            :disabled="!canGoNext || isSubmitting"
-            @click="submitSettlement"
-          >
+          <button v-else type="button" :disabled="!canGoNext || isSubmitting" @click="submitSettlement">
             {{ isSubmitting ? '结算中...' : '确认结算' }}
           </button>
         </div>
@@ -308,20 +271,30 @@ onMounted(() => {
       <template v-else>
         <div class="result-area">
           <h2>结算完成</h2>
-          <p>获得 PP：{{ settlementResult.earnedPlatinum }}</p>
-          <p>获得 CP：{{ settlementResult.earnedCopper }}</p>
+          <p>获得 PP：{{ settlementResult?.platinum ?? 0 }}</p>
+          <p>获得 CP：{{ settlementResult?.copper ?? 0 }}</p>
 
           <div>
-            <h3>完成项目</h3>
-            <ul v-if="settlementResult.completedItems.length > 0">
-              <li v-for="item in settlementResult.completedItems" :key="item">
-                {{ item }}
+            <h3>本次明细</h3>
+
+            <ul v-if="settlementResult?.routineDetails?.length">
+              <li v-for="item in settlementResult.routineDetails" :key="item.id">
+                {{ item.name }} -
+                <span v-if="item.isCompleted">〇</span>
+                <span v-else>×</span>
+                /
+                {{ item.amount }}
+                <span v-if="item.currencyType === 1">PP</span>
+                <span v-else-if="item.currencyType ===2">CP</span>
               </li>
             </ul>
-            <p v-else>今天没有完成项目</p>
+
+            <p v-else>没有明细</p>
           </div>
 
-          <button type="button" @click="closeModal">关闭</button>
+          <div class="actions">
+            <button type="button" @click="closeModal">关闭</button>
+          </div>
         </div>
       </template>
     </div>
