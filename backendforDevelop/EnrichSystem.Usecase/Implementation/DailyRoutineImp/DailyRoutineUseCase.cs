@@ -1,4 +1,5 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
+using EnrichSystem.Domain.Enums;
 using EnrichSystem.Domain.Ledgers;
 using EnrichSystem.Usecase.Dtos.DailyRoutineDtos.CompleteListDtos;
 using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface;
@@ -70,7 +71,7 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
         /// <param name="targetDailyRoutine"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<DailyRoutineCompleteResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
+        public async Task<CompleteDailyRoutinesResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
         {
             //validate
             if (targetDailyRoutine == null || targetDailyRoutine.DailyRoutines == null || targetDailyRoutine.DailyRoutines.Count == 0)
@@ -107,16 +108,20 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             await _ledgerRepo.BulkInsert(ledgerList);
             //todo1:把完成的奖励一览list返回给前端
             //todo2:
-            return new DailyRoutineCompleteResultDto
+            var list = new CompleteDailyRoutinesResultDto
             {
-                Items = res.Select(x => new DailyRoutineCompleteResultItem
+                RoutineDetails = res.Select(x => new CompleteDailyRoutineDetailsDto
                 {
                     Id = x.Id,
                     IsCompleted = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted,
-                    RoutineName = x.Key,
+                    Name = x.Key,
+                    CurrencyType = x.currencyType,
                     Amount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish
                 }).ToList()
             };
+            list.Platinum = list.RoutineDetails.Where(x => x.IsCompleted && x.CurrencyType == CurrencyType.Sun).Sum(x => x.Amount);
+            list.Copper = list.RoutineDetails.Where(x => x.IsCompleted && x.CurrencyType == CurrencyType.Copper).Sum(x => x.Amount);
+            return list;
         }
     }
 }

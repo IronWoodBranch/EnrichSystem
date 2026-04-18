@@ -22,6 +22,6 @@ namespace EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface
         /// </summary>
         /// <param name="targeDailyRoutine"></param>
         /// <returns></returns>
-        public Task<DailyRoutineCompleteResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targeDailyRoutine);
+        public Task<CompleteDailyRoutinesResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targeDailyRoutine);
     }
 }

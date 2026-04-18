@@ -16,8 +16,8 @@ namespace EnrichSystem.Api.Controllers.RoutineControllers
             _dailyRoutineUsecase = dailyRoutineUsecase;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> CompleteDailyRoutines([FromBody] DailyRoutineCompleteListDto routines)
+        [HttpPost("complete")]
+        public async Task<ActionResult<CompleteDailyRoutinesResultDto>> CompleteDailyRoutines([FromBody] DailyRoutineCompleteListDto routines)
         {
             //todo :完成
             await _dailyRoutineUsecase.CompleteDailyRoutine(routines);
