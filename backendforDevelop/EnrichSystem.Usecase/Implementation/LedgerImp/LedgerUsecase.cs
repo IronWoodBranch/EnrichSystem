@@ -44,8 +44,8 @@ namespace EnrichSystem.Usecase.Implementation.LedgerImp
         public async Task<Balance> GetSummaries(int id)
         {
             var ledgers = await GetAllLedgers(id);
-            var ppSumary = ledgers.Where(x => x.CurrencyType == (int)CurrencyType.Sun).Sum(x => x.Amount);
-            var cpSumary = ledgers.Where(x => x.CurrencyType == (int)CurrencyType.Copper).Sum(x => x.Amount);
+            var ppSumary = ledgers.Where(x => x.CurrencyType == CurrencyType.Sun).Sum(x => x.Amount);
+            var cpSumary = ledgers.Where(x => x.CurrencyType == CurrencyType.Copper).Sum(x => x.Amount);
             return new Balance
             {
                 Coppers = cpSumary,

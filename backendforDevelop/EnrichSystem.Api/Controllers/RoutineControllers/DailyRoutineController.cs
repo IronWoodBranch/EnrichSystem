@@ -20,9 +20,9 @@ namespace EnrichSystem.Api.Controllers.RoutineControllers
         public async Task<ActionResult<CompleteDailyRoutinesResultDto>> CompleteDailyRoutines([FromBody] DailyRoutineCompleteListDto routines)
         {
             //todo :完成
-            await _dailyRoutineUsecase.CompleteDailyRoutine(routines);
+            var res = await _dailyRoutineUsecase.CompleteDailyRoutine(routines);
 
-            return Ok();
+            return Ok(res);
         }
 
         [HttpGet]

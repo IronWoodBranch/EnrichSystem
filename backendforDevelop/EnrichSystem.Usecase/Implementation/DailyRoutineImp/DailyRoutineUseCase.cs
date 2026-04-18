@@ -119,8 +119,15 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
                     Amount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish
                 }).ToList()
             };
-            list.Platinum = list.RoutineDetails.Where(x => x.IsCompleted && x.CurrencyType == CurrencyType.Sun).Sum(x => x.Amount);
-            list.Copper = list.RoutineDetails.Where(x => x.IsCompleted && x.CurrencyType == CurrencyType.Copper).Sum(x => x.Amount);
+
+
+            var platinumList = list.RoutineDetails.Where(x => x.CurrencyType == CurrencyType.Sun);
+            var palitnumAmount = platinumList.Sum(x => x.Amount);
+            var copperList = list.RoutineDetails.Where(x => x.CurrencyType == CurrencyType.Copper);
+            var copperAmount = copperList.Sum(x => x.Amount);
+
+            list.Platinum = palitnumAmount;
+            list.Copper = copperAmount;
             return list;
         }
     }

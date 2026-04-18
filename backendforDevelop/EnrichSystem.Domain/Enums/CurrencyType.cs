@@ -11,8 +11,8 @@ namespace EnrichSystem.Domain.Enums
         /// </summary>
         Copper = 1,
         /// <summary>
-        /// 银币
+        /// 太阳币
         /// </summary>
-        Sun = 0
+        Sun = 2
     }
 }
