@@ -15,7 +15,7 @@ namespace EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface
         public Task<DailyRoutine> UpdateDailyRoutine(DailyRoutine updateObj);
         public Task<DailyRoutine> DeleteDailyRoutine(DailyRoutine deleteObj);
         public Task<DailyRoutine> GetDailyRoutine(int id);
-        public Task<List<DailyRoutine>> GetAllRoutines();
+        public Task<List<GetDailyRoutineResultDto>> GetAllRoutines();
 
         /// <summary>
         /// 完成目标

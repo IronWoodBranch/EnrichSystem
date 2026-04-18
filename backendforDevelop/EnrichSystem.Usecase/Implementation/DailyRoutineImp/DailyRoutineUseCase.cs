@@ -46,10 +46,22 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             throw new NotImplementedException();
         }
 
-        public async Task<List<DailyRoutine>> GetAllRoutines()
+        public async Task<List<GetDailyRoutineResultDto>> GetAllRoutines()
         {
-            var res = await _dbRepo.GetAllRoutines();
-            return res.ToList();
+            var queryRes = await _dbRepo.GetAllRoutines();
+            var res = new List<GetDailyRoutineResultDto>();
+            foreach (var r in queryRes)
+            {
+                res.Add(new GetDailyRoutineResultDto
+                {
+                    Id = r.Id,
+                    Name = r.Lable,
+                    Key = r.Key,
+                    amount = r.CompleteReward
+                });
+            }
+
+            return res;
         }
 
         /// <summary>
