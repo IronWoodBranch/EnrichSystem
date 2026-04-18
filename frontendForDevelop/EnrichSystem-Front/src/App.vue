@@ -122,7 +122,6 @@ onMounted(async()=>
         <DailySettlementModal 
           v-if="showSettlementModal" 
           @close="closeSettlementModal" 
-          @submitted="handdleSettlementSubmitted"
           />
      </div>
     </div>
