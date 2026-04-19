@@ -39,7 +39,7 @@ namespace EnrichSystem.Domain.DailyRoutines
         /// <summary>
         /// 奖励类型
         /// </summary>
-        public int currencyType { get; set; }
+        public CurrencyType currencyType { get; set; }
 
         /// <summary>
         /// 是否含有特殊规则

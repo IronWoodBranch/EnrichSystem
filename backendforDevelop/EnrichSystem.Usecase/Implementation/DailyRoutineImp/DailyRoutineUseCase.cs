@@ -1,4 +1,5 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
+using EnrichSystem.Domain.Enums;
 using EnrichSystem.Domain.Ledgers;
 using EnrichSystem.Usecase.Dtos.DailyRoutineDtos.CompleteListDtos;
 using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface;
@@ -46,10 +47,22 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             throw new NotImplementedException();
         }
 
-        public async Task<List<DailyRoutine>> GetAllRoutines()
+        public async Task<List<GetDailyRoutineResultDto>> GetAllRoutines()
         {
-            var res = await _dbRepo.GetAllRoutines();
-            return res.ToList();
+            var queryRes = await _dbRepo.GetAllRoutines();
+            var res = new List<GetDailyRoutineResultDto>();
+            foreach (var r in queryRes)
+            {
+                res.Add(new GetDailyRoutineResultDto
+                {
+                    Id = r.Id,
+                    Name = r.Lable,
+                    Key = r.Key,
+                    amount = r.CompleteReward
+                });
+            }
+
+            return res;
         }
 
         /// <summary>
@@ -58,7 +71,7 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
         /// <param name="targetDailyRoutine"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<DailyRoutineCompleteResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
+        public async Task<CompleteDailyRoutinesResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
         {
             //validate
             if (targetDailyRoutine == null || targetDailyRoutine.DailyRoutines == null || targetDailyRoutine.DailyRoutines.Count == 0)
@@ -95,16 +108,27 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             await _ledgerRepo.BulkInsert(ledgerList);
             //todo1:把完成的奖励一览list返回给前端
             //todo2:
-            return new DailyRoutineCompleteResultDto
+            var list = new CompleteDailyRoutinesResultDto
             {
-                Items = res.Select(x => new DailyRoutineCompleteResultItem
+                RoutineDetails = res.Select(x => new CompleteDailyRoutineDetailsDto
                 {
                     Id = x.Id,
                     IsCompleted = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted,
-                    RoutineName = x.Key,
+                    Name = x.Key,
+                    CurrencyType = x.currencyType,
                     Amount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish
                 }).ToList()
             };
+
+
+            var platinumList = list.RoutineDetails.Where(x => x.CurrencyType == CurrencyType.Sun);
+            var palitnumAmount = platinumList.Sum(x => x.Amount);
+            var copperList = list.RoutineDetails.Where(x => x.CurrencyType == CurrencyType.Copper);
+            var copperAmount = copperList.Sum(x => x.Amount);
+
+            list.Platinum = palitnumAmount;
+            list.Copper = copperAmount;
+            return list;
         }
     }
 }
