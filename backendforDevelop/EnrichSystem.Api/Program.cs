@@ -1,5 +1,5 @@
 using EnrichSystem.Infrastructure.DbContexts;
-using EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo;
+using EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutineRepo;
 using EnrichSystem.Infrastructure.Repositories.LedgersRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsCompleteRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsRepo;
@@ -7,7 +7,7 @@ using EnrichSystem.Usecase.Implementation.DailyRoutineImp;
 using EnrichSystem.Usecase.Implementation.LedgerImp;
 using EnrichSystem.Usecase.Implementation.QuestCompleteImp;
 using EnrichSystem.Usecase.Implementation.QuestImp;
-using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface;
+using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.QuestCompletes;
 using EnrichSystem.Usecase.Interfaces.Repositories.Quests;

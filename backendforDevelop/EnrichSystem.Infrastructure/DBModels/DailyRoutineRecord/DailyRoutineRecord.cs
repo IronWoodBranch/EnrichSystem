@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnrichSystem.Domain.DBModels.DailyRoutineRecord
+namespace EnrichSystem.Infrastructure.DBModels.DailyRoutineRecord
 {
     /// <summary>
     /// DailyRoutine要做个专门的入账
     /// </summary>
-    public class DailyRoutineRecord
+    public class DailyRoutineRecordEntity
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

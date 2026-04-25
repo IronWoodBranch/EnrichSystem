@@ -1,8 +1,9 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
 using EnrichSystem.Domain.Enums;
 using EnrichSystem.Domain.Ledgers;
+using EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords;
 using EnrichSystem.Usecase.Dtos.DailyRoutineDtos.CompleteListDtos;
-using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface;
+using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface;
 using System;
@@ -17,10 +18,15 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
     {
         private readonly IDailyRoutineReopository _dbRepo;
         private readonly ILedgerRepository _ledgerRepo;
-        public DailyRoutineUseCase(IDailyRoutineReopository dbRepo, ILedgerRepository ledgerRepo)
+        private readonly IDailyRoutineRecordService _dailyRoutineRecordService;
+        public DailyRoutineUseCase(
+            IDailyRoutineReopository dbRepo,
+            ILedgerRepository ledgerRepo,
+            IDailyRoutineRecordService dailyRoutineRecordService)
         {
             _dbRepo = dbRepo;
             _ledgerRepo = ledgerRepo;
+            _dailyRoutineRecordService = dailyRoutineRecordService;
         }
 
         public async Task<DailyRoutine> CreateDailyRoutine(DailyRoutine createObj)

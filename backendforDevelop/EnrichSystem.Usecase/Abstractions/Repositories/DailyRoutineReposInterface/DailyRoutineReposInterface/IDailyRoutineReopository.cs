@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface
+namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface
 {
     public interface IDailyRoutineReopository
     {

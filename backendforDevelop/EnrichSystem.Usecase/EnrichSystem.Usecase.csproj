@@ -7,11 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Implementation\QuestCompleteImp\QuestCompleteUsecase.cs" />
+    <None Include="UseCases\QuestCompleteImp\QuestCompleteUsecase.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\EnrichSystem.Domain\EnrichSystem.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="UseCases\DailyRoutineImp\新文件夹\" />
   </ItemGroup>
 
 </Project>

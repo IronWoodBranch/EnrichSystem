@@ -1,6 +1,6 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
 using EnrichSystem.Infrastructure.DbContexts;
-using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineRepoInterface;
+using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo
+namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutineRepo
 {
     public class DailyRoutineRepository : IDailyRoutineReopository
     {
