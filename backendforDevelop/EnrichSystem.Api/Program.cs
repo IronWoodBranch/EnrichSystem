@@ -1,12 +1,15 @@
 using EnrichSystem.Infrastructure.DbContexts;
+using EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo.DailyRoutineLedgerRepo;
 using EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutineRepo;
 using EnrichSystem.Infrastructure.Repositories.LedgersRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsCompleteRepo;
 using EnrichSystem.Infrastructure.Repositories.QuestsRepo;
+using EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords;
 using EnrichSystem.Usecase.Implementation.DailyRoutineImp;
 using EnrichSystem.Usecase.Implementation.LedgerImp;
 using EnrichSystem.Usecase.Implementation.QuestCompleteImp;
 using EnrichSystem.Usecase.Implementation.QuestImp;
+using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineLedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.QuestCompletes;
@@ -15,6 +18,7 @@ using EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.LedgerInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.QuestCompleteInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.QuestsInterface;
+using EnrichSystem.Usecase.Services.DailyRoutineRecords;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -42,6 +46,9 @@ builder.Services.AddScoped<ILedgerRepository, LegerRepository>();
 builder.Services.AddScoped<ILedgerUsecase, LedgerUsecase>();
 builder.Services.AddScoped<IDailyRoutineReopository, DailyRoutineRepository>();
 builder.Services.AddScoped<IDailyRoutineUsecase, DailyRoutineUseCase>();
+builder.Services.AddScoped<IDailyRoutineRecordRepository, DailyRoutineLedgerRepository>();
+builder.Services.AddScoped<IDailyRoutineRecordService, DailyRoutineRecordService>();
+
 
 //跨域配置
 builder.Services.AddCors(options =>

@@ -1,4 +1,5 @@
 ﻿using EnrichSystem.Domain.DailyRoutines;
+using EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord;
 using EnrichSystem.Domain.Enums;
 using EnrichSystem.Domain.Ledgers;
 using EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords;
@@ -6,6 +7,7 @@ using EnrichSystem.Usecase.Dtos.DailyRoutineDtos.CompleteListDtos;
 using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineReposInterface;
 using EnrichSystem.Usecase.Interfaces.Repositories.LedgerRepoInterface;
 using EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface;
+using EnrichSystem.Usecase.Services.DailyRoutineRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,6 +79,7 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
         /// <param name="targetDailyRoutine"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
+        /// todo:改造成领域事件做完成，这里只做编排
         public async Task<CompleteDailyRoutinesResultDto> CompleteDailyRoutine(DailyRoutineCompleteListDto targetDailyRoutine)
         {
             //validate
@@ -89,8 +92,6 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
                 .ToList();
 
 
-            //todo:这里不用GetAll
-            //早期先这么写，免得越写越多，先快速实现功能
             var res = await _dbRepo.GetRoutinesByIds(idList);
 
             List<Ledger> ledgerList = new List<Ledger>();
@@ -125,6 +126,22 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
                     Amount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish
                 }).ToList()
             };
+
+
+            // 存入每日记录单独的记录表
+            var routineLedgerList = new List<DailyRoutineRecord>();
+            routineLedgerList = res.Select(x => new DailyRoutineRecord
+            {
+                Name = x.Key,
+                DailyRoutineId = x.Id.ToString(),
+                Date = DateTime.Now,
+                IsCompleted = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted,
+                LedgerAmount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish,
+                CurrencyType = x.currencyType,
+                CompleteReward = x.CompleteReward,
+                FailedPunish = x.FailedPunish
+            }).ToList();
+            await _dailyRoutineRecordService.BulkInsertDailyRoutineRecord(routineLedgerList);
 
 
             var platinumList = list.RoutineDetails.Where(x => x.CurrencyType == CurrencyType.Sun);

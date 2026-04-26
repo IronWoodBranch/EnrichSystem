@@ -11,6 +11,8 @@ namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterfac
     public interface IDailyRoutineRecordRepository
     {
         public Task CreateNewLedger(DailyRoutineRecord ledger);
+
+        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> records);
         public Task DeleteLedger(DailyRoutineRecord ledger);
 
         public Task UpdateLedger(DailyRoutineRecord ledger);

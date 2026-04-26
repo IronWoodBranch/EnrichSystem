@@ -13,8 +13,9 @@ namespace EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord
     public class DailyRoutineRecord
     {
         public string Id { get; set; }
-        public string Name { get; set; }
         public string DailyRoutineId { get; set; }
+        public string Name { get; set; }
+
         public DateTime Date { get; set; }
         public bool IsCompleted { get; set; }
         /// <summary>
@@ -24,10 +25,10 @@ namespace EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord
         public CurrencyType CurrencyType { get; set; }
         public double CompleteReward { get; set; }
         public double FailedPunish { get; set; }
+        public DailyRoutineRecord() { }
 
-        public DailyRoutineRecord(string id, string name, string dailyRoutineId, DateTime date, double amount)
+        public DailyRoutineRecord( string name, string dailyRoutineId)
         {
-            Id = id;
             Name = name;
             DailyRoutineId = dailyRoutineId;
         }

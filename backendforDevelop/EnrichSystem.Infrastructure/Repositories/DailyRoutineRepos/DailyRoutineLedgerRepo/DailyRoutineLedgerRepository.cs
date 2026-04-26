@@ -13,6 +13,25 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo.DailyRoutine
     public class DailyRoutineLedgerRepository : IDailyRoutineRecordRepository
     {
         private readonly ApplicationDbContext _context;
+        public DailyRoutineLedgerRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
+
+        public async Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> records)
+        {
+            var objList = records.Select(ledger => new DailyRoutineRecordEntity
+            {
+                Date = ledger.Date,
+                Amount = ledger.LedgerAmount,
+                DailyRoutineId = ledger.DailyRoutineId,
+                DailyRoutineName = ledger.Name
+            }).ToList();
+            _context.DailyRoutineRecords.AddRange(objList);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task CreateNewLedger(DailyRoutineRecord ledger)
         {
             var obj = new DailyRoutineRecordEntity

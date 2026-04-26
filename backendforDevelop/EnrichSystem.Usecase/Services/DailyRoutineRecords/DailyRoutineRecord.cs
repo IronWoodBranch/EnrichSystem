@@ -17,6 +17,11 @@ namespace EnrichSystem.Usecase.Services.DailyRoutineRecords
             _dailyRoutineRecordRepository = dailyRoutineRecordRepository;
         }
 
+        public async Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> ledgerList)
+        {
+            await _dailyRoutineRecordRepository.BulkInsertDailyRoutineRecord(ledgerList);
+        }
+
         public async Task CreateDailyRoutineRecord(DailyRoutineRecord ledger)
         {
             await _dailyRoutineRecordRepository.CreateNewLedger(ledger);

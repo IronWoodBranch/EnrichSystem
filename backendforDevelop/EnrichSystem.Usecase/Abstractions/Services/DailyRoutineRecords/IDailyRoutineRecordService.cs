@@ -10,5 +10,7 @@ namespace EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords
     public interface IDailyRoutineRecordService
     {
         public Task CreateDailyRoutineRecord(DailyRoutineRecord ledger);
+
+        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> ledgerList);
     }
 }
