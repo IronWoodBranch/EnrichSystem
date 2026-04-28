@@ -10,15 +10,15 @@ namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterfac
 {
     public interface IDailyRoutineRecordRepository
     {
-        public Task CreateNewLedger(DailyRoutineRecord ledger);
+        public Task CreateNewLedger(DailyRoutineLedger ledger);
 
-        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> records);
-        public Task DeleteLedger(DailyRoutineRecord ledger);
+        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineLedger> records);
+        public Task DeleteLedger(DailyRoutineLedger ledger);
 
-        public Task UpdateLedger(DailyRoutineRecord ledger);
+        public Task UpdateLedger(DailyRoutineLedger ledger);
 
-        public Task<IEnumerable<DailyRoutineRecord>> GetAllLedgers();
+        public Task<IEnumerable<DailyRoutineLedger>> GetAllLedgers();
 
-        public Task<IEnumerable<DailyRoutineRecord>> GetLedgersByIds(IEnumerable<int> ids);
+        public Task<IEnumerable<DailyRoutineLedger>> GetLedgersByIds(IEnumerable<int> ids);
     }
 }

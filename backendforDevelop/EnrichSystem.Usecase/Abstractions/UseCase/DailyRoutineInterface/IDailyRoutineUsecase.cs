@@ -10,11 +10,11 @@ namespace EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface
 {
     public interface IDailyRoutineUsecase
     {
-        public Task<DailyRoutine> CreateDailyRoutine(DailyRoutine createObj);
+        public Task<DailyRoutineDefination> CreateDailyRoutine(DailyRoutineDefination createObj);
 
-        public Task<DailyRoutine> UpdateDailyRoutine(DailyRoutine updateObj);
-        public Task<DailyRoutine> DeleteDailyRoutine(DailyRoutine deleteObj);
-        public Task<DailyRoutine> GetDailyRoutine(int id);
+        public Task<DailyRoutineDefination> UpdateDailyRoutine(DailyRoutineDefination updateObj);
+        public Task<DailyRoutineDefination> DeleteDailyRoutine(DailyRoutineDefination deleteObj);
+        public Task<DailyRoutineDefination> GetDailyRoutine(int id);
         public Task<List<GetDailyRoutineResultDto>> GetAllRoutines();
 
         /// <summary>

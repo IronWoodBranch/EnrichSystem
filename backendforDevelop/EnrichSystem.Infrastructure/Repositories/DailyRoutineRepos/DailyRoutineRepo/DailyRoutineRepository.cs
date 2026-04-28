@@ -17,7 +17,7 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutin
             _context = dbcontext;
         }
 
-        public async Task CreateNewRoutine(DailyRoutine dailyRoutine)
+        public async Task CreateNewRoutine(DailyRoutineDefination dailyRoutine)
         {
             await _context.AddAsync(dailyRoutine);
             await _context.SaveChangesAsync();
@@ -28,7 +28,7 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutin
         /// </summary>
         /// <param name="dailyRoutine"></param>
         /// <returns></returns>
-        public async Task DeleteRoutine(DailyRoutine dailyRoutine)
+        public async Task DeleteRoutine(DailyRoutineDefination dailyRoutine)
         {
             var obj = _context.DailyRoutines.Where(x => x.Id == dailyRoutine.Id).FirstOrDefault();
             if (obj != null)
@@ -38,13 +38,13 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutin
             }
         }
 
-        public async Task<IEnumerable<DailyRoutine>> GetAllRoutines()
+        public async Task<IEnumerable<DailyRoutineDefination>> GetAllRoutines()
         {
-            var result = await _context.DailyRoutines.ToListAsync<DailyRoutine>();
+            var result = await _context.DailyRoutines.ToListAsync<DailyRoutineDefination>();
             return result;
         }
 
-        public async Task<IEnumerable<DailyRoutine>> GetRoutinesByIds(IEnumerable<int> ids)
+        public async Task<IEnumerable<DailyRoutineDefination>> GetRoutinesByIds(IEnumerable<int> ids)
         {
             var result = _context.DailyRoutines.Where(x => ids.Contains(x.Id)).ToList();
             return result;
@@ -56,7 +56,7 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepos.DailyRoutin
         /// <param name="dailyRoutine"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public async Task UpdateRoutine(DailyRoutine dailyRoutine)
+        public async Task UpdateRoutine(DailyRoutineDefination dailyRoutine)
         {
             var obj = _context.DailyRoutines.Where(x => x.Id == dailyRoutine.Id).FirstOrDefault();
             if (obj != null)

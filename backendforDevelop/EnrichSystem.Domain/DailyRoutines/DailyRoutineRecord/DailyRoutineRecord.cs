@@ -10,10 +10,10 @@ namespace EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord
     /// <summary>
     /// 
     /// </summary>
-    public class DailyRoutineRecord
+    public class DailyRoutineLedger
     {
-        public string Id { get; set; }
-        public string DailyRoutineId { get; set; }
+        public int Id { get; set; }
+        public int DailyRoutineId { get; set; }
         public string Name { get; set; }
 
         public DateTime Date { get; set; }
@@ -25,9 +25,9 @@ namespace EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord
         public CurrencyType CurrencyType { get; set; }
         public double CompleteReward { get; set; }
         public double FailedPunish { get; set; }
-        public DailyRoutineRecord() { }
+        public DailyRoutineLedger() { }
 
-        public DailyRoutineRecord( string name, string dailyRoutineId)
+        public DailyRoutineLedger( string name, int dailyRoutineId)
         {
             Name = name;
             DailyRoutineId = dailyRoutineId;

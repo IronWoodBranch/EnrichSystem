@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EnrichSystem.Domain.DailyRoutines
 {
-    public class DailyRoutine
+    public class DailyRoutineDefination
     {
         /// <summary>
         /// Id

@@ -1,4 +1,5 @@
 ﻿using EnrichSystem.Domain.DailyRoutines.DailyRoutineRecord;
+using EnrichSystem.Usecase.Dtos.DailyRoutineRecordDtos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,10 @@ namespace EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords
 {
     public interface IDailyRoutineRecordService
     {
-        public Task CreateDailyRoutineRecord(DailyRoutineRecord ledger);
+        public Task CreateDailyRoutineRecord(DailyRoutineLedger ledger);
 
-        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> ledgerList);
+        public Task BulkInsertDailyRoutineRecord(List<DailyRoutineLedger> ledgerList);
+
+        public Task<GetAllDailyRoutineRecordsResultDto> GetAllDailyRoutineRecords();
     }
 }

@@ -33,21 +33,21 @@ namespace EnrichSystem.Api.Controllers.RoutineControllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> CreateDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutine createObj)
+        public async Task<IActionResult> CreateDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutineDefination createObj)
         {
             await _dailyRoutineUsecase.CreateDailyRoutine(createObj);
             return Ok();
         }
 
         [HttpPut("Update")]
-        public async Task<IActionResult> UpdateDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutine updateObj)
+        public async Task<IActionResult> UpdateDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutineDefination updateObj)
         {
             await _dailyRoutineUsecase.UpdateDailyRoutine(updateObj);
             return Ok();
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutine deleteObj)
+        public async Task<IActionResult> DeleteDailyRoutine([FromBody] Domain.DailyRoutines.DailyRoutineDefination deleteObj)
         {
             await _dailyRoutineUsecase.DeleteDailyRoutine(deleteObj);
             return Ok();

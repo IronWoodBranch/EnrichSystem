@@ -2,6 +2,7 @@
 using EnrichSystem.Infrastructure.DbContexts;
 using EnrichSystem.Infrastructure.DBModels.DailyRoutineRecord;
 using EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterface.DailyRoutineLedgerRepoInterface;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,48 +20,65 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo.DailyRoutine
         }
 
 
-        public async Task BulkInsertDailyRoutineRecord(List<DailyRoutineRecord> records)
+        public async Task BulkInsertDailyRoutineRecord(List<DailyRoutineLedger> records)
         {
-            var objList = records.Select(ledger => new DailyRoutineRecordEntity
+            var objList = records.Select(ledger => new DailyRoutineLedgerEntity
             {
                 Date = ledger.Date,
                 Amount = ledger.LedgerAmount,
                 DailyRoutineId = ledger.DailyRoutineId,
-                DailyRoutineName = ledger.Name
+                DailyRoutineName = ledger.Name,
+                IsCompleted = ledger.IsCompleted
             }).ToList();
             _context.DailyRoutineRecords.AddRange(objList);
             await _context.SaveChangesAsync();
         }
 
-        public async Task CreateNewLedger(DailyRoutineRecord ledger)
+        public async Task CreateNewLedger(DailyRoutineLedger record)
         {
-            var obj = new DailyRoutineRecordEntity
+            var obj = new DailyRoutineLedgerEntity
             {
-                Date = ledger.Date,
-                Amount = ledger.LedgerAmount,
-                DailyRoutineId = ledger.DailyRoutineId,
-                DailyRoutineName = ledger.Name
+                Date = record.Date,
+                Amount = record.LedgerAmount,
+                DailyRoutineId = record.DailyRoutineId,
+                DailyRoutineName = record.Name,
+                IsCompleted = record.IsCompleted
             };
             _context.Add(obj);
             await _context.SaveChangesAsync();
         }
 
-        public Task DeleteLedger(DailyRoutineRecord ledger)
+        public Task DeleteLedger(DailyRoutineLedger ledger)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<DailyRoutineRecord>> GetAllLedgers()
+        public async Task<IEnumerable<DailyRoutineLedger>> GetAllLedgers()
+        {
+            var dbrecords = await _context.DailyRoutineRecords.ToListAsync();
+            List<DailyRoutineLedger> res = new List<DailyRoutineLedger>();
+            foreach(var i in dbrecords)
+            {
+                var singleRecrod = new DailyRoutineLedger
+                {
+                    Id = i.Id,
+                    DailyRoutineId = i.DailyRoutineId,
+                    Name = i.DailyRoutineName,
+                    Date = i.Date,
+                    IsCompleted = i.IsCompleted,
+                    LedgerAmount = i.Amount,
+                };
+                res.Add(singleRecrod);
+            }
+            return res;
+        }
+
+        public Task<IEnumerable<DailyRoutineLedger>> GetLedgersByIds(IEnumerable<int> ids)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<DailyRoutineRecord>> GetLedgersByIds(IEnumerable<int> ids)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateLedger(DailyRoutineRecord ledger)
+        public Task UpdateLedger(DailyRoutineLedger ledger)
         {
             throw new NotImplementedException();
         }

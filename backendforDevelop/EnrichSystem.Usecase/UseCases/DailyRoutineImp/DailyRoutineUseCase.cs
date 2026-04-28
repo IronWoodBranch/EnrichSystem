@@ -31,26 +31,26 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
             _dailyRoutineRecordService = dailyRoutineRecordService;
         }
 
-        public async Task<DailyRoutine> CreateDailyRoutine(DailyRoutine createObj)
+        public async Task<DailyRoutineDefination> CreateDailyRoutine(DailyRoutineDefination createObj)
         {
             var res = _dbRepo.CreateNewRoutine(createObj);
             await res;
             return createObj;
         }
 
-        public async Task<DailyRoutine> UpdateDailyRoutine(DailyRoutine updateObj)
+        public async Task<DailyRoutineDefination> UpdateDailyRoutine(DailyRoutineDefination updateObj)
         {
             var res = _dbRepo.UpdateRoutine(updateObj);
             return updateObj;
         }
 
-        public async Task<DailyRoutine> DeleteDailyRoutine(DailyRoutine deleteObj)
+        public async Task<DailyRoutineDefination> DeleteDailyRoutine(DailyRoutineDefination deleteObj)
         {
             await _dbRepo.DeleteRoutine(deleteObj);
             return deleteObj;
         }
 
-        public Task<DailyRoutine> GetDailyRoutine(int id)
+        public Task<DailyRoutineDefination> GetDailyRoutine(int id)
         {
             throw new NotImplementedException();
         }
@@ -129,11 +129,11 @@ namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
 
 
             // 存入每日记录单独的记录表
-            var routineLedgerList = new List<DailyRoutineRecord>();
-            routineLedgerList = res.Select(x => new DailyRoutineRecord
+            var routineLedgerList = new List<DailyRoutineLedger>();
+            routineLedgerList = res.Select(x => new DailyRoutineLedger
             {
                 Name = x.Key,
-                DailyRoutineId = x.Id.ToString(),
+                DailyRoutineId = x.Id,
                 Date = DateTime.Now,
                 IsCompleted = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted,
                 LedgerAmount = targetDailyRoutine.DailyRoutines.First(r => r.Id == x.Id).IsCompleted ? x.CompleteReward : x.FailedPunish,

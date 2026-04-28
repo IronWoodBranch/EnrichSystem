@@ -19,9 +19,9 @@ namespace EnrichSystem.Infrastructure.DbContexts
         //todo:把领域模型改为DBModel
         public DbSet<Ledger> Ledgers {  get; set; }
         //todo:把领域模型改为DBModel
-        public DbSet<DailyRoutine> DailyRoutines { get; set; }
+        public DbSet<DailyRoutineDefination> DailyRoutines { get; set; }
         //todo:把领域模型改为DBModel
-        public DbSet<DailyRoutineRecordEntity> DailyRoutineRecords { get; set; }
+        public DbSet<DailyRoutineLedgerEntity> DailyRoutineRecords { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {

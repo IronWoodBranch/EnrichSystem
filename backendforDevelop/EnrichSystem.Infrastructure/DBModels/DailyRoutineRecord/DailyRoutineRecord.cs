@@ -9,12 +9,16 @@ namespace EnrichSystem.Infrastructure.DBModels.DailyRoutineRecord
     /// <summary>
     /// DailyRoutine要做个专门的入账
     /// </summary>
-    public class DailyRoutineRecordEntity
+    public class DailyRoutineLedgerEntity
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public double Amount { get; set; }
-        public string DailyRoutineId { get; set; }
+        public int DailyRoutineId { get; set; }
         public string DailyRoutineName { get; set; }
+        /// <summary>
+        /// 该任务是否完成
+        /// </summary>
+        public bool IsCompleted { get; set; }
     }
 }
