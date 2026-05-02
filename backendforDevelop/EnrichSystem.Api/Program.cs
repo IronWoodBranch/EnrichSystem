@@ -45,7 +45,7 @@ builder.Services.AddScoped<IQuestCompleteUsecase, QuestCompleteUsecase>();
 builder.Services.AddScoped<ILedgerRepository, LegerRepository>();
 builder.Services.AddScoped<ILedgerUsecase, LedgerUsecase>();
 builder.Services.AddScoped<IDailyRoutineReopository, DailyRoutineRepository>();
-builder.Services.AddScoped<IDailyRoutineUsecase, DailyRoutineUseCase>();
+builder.Services.AddScoped<IDailyRoutineDefUsecase, DailyRoutineDefUseCase>();
 builder.Services.AddScoped<IDailyRoutineRecordRepository, DailyRoutineLedgerRepository>();
 builder.Services.AddScoped<IDailyRoutineRecordService, DailyRoutineRecordService>();
 

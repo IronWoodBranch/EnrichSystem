@@ -32,3 +32,17 @@ export type CompleteDailyRoutineDetailsDto = {
   isCompleted: boolean
   currencyType: number
 }
+
+export type  DailyRoutineRecordItem = {
+  id: number
+  dailyRoutineId: number
+  name: string
+  date: string
+  isCompleted: boolean
+  amount: number
+  currency: number
+}
+export type DailyRoutineRecordGroup = {
+  date: string
+  records: DailyRoutineRecordItem[]
+}

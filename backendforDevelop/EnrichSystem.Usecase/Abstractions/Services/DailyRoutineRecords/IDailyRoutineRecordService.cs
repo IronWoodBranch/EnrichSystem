@@ -15,5 +15,6 @@ namespace EnrichSystem.Usecase.Abstractions.Services.DailyRoutineRecords
         public Task BulkInsertDailyRoutineRecord(List<DailyRoutineLedger> ledgerList);
 
         public Task<GetAllDailyRoutineRecordsResultDto> GetAllDailyRoutineRecords();
+        public Task<GetRecentDailyRoutineRecordsResultDto> GetRecentDailyRoutineRecords(int days = 7);
     }
 }

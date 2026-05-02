@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnrichSystem.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace EnrichSystem.Infrastructure.DBModels.DailyRoutineRecord
         public DateTime Date { get; set; }
         public double Amount { get; set; }
         public int DailyRoutineId { get; set; }
+        public CurrencyType CurrencyType { get; set; }
         public string DailyRoutineName { get; set; }
         /// <summary>
         /// 该任务是否完成

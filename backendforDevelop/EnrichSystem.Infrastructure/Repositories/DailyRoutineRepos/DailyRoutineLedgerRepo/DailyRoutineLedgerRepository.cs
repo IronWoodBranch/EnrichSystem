@@ -73,6 +73,21 @@ namespace EnrichSystem.Infrastructure.Repositories.DailyRoutineRepo.DailyRoutine
             return res;
         }
 
+        public async Task<IEnumerable<DailyRoutineLedger>> GetLedgersByDate(DateTime date)
+        {
+            var dbrecords = await _context.DailyRoutineRecords.Where(r => r.Date.Date >= date.Date).ToListAsync();
+            return dbrecords.Select(i => new DailyRoutineLedger
+            {
+                Id = i.Id,
+                DailyRoutineId = i.DailyRoutineId,
+                Name = i.DailyRoutineName,
+                Date = i.Date,
+                IsCompleted = i.IsCompleted,
+                LedgerAmount = i.Amount,
+                CurrencyType = i.CurrencyType,
+            });
+        }
+
         public Task<IEnumerable<DailyRoutineLedger>> GetLedgersByIds(IEnumerable<int> ids)
         {
             throw new NotImplementedException();

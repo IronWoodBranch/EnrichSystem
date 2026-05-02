@@ -8,9 +8,9 @@ import type { SettlementResult, Question, GetDailyRoutineDto } from '@/types/Dai
 
 
 //获取所有的日常任务
-const GET_DAILY_ROUTINE_URL = 'http://localhost:5148/api/DailyRoutine'
+const GET_DAILY_ROUTINE_URL = 'http://localhost:5148/api/DailyRoutineDef'
 //完成任务的接口发送
-const SUBMIT_DAILYROUTINE_URL = 'http://localhost:5148/api/DailyRoutine/complete'
+const SUBMIT_DAILYROUTINE_URL = 'http://localhost:5148/api/DailyRoutineDef/complete'
 
 const emit = defineEmits<{
   (e: 'close'): void

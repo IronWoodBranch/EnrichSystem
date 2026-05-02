@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace EnrichSystem.Usecase.Interfaces.UseCase.DailyRoutineInterface
 {
-    public interface IDailyRoutineUsecase
+    public interface IDailyRoutineDefUsecase
     {
         public Task<DailyRoutineDefination> CreateDailyRoutine(DailyRoutineDefination createObj);
 

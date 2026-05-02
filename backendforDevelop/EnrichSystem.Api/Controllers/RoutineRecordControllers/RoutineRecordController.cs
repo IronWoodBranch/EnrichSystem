@@ -23,5 +23,12 @@ namespace EnrichSystem.Api.Controllers.RoutineRecordControllers
             var res = await _dailyRoutineRecordService.GetAllDailyRoutineRecords();
             return Ok(res);
         }
-    } 
+
+        [HttpGet("GetRecent")]
+        public async Task<ActionResult<GetRecentDailyRoutineRecordsResultDto>> GetRecentDailyRoutineRecords(int days = 7)
+        {
+            var res = await _dailyRoutineRecordService.GetRecentDailyRoutineRecords();
+            return Ok(res);
+        }
+    }
 }

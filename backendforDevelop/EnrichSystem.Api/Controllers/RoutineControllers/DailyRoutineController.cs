@@ -8,10 +8,10 @@ namespace EnrichSystem.Api.Controllers.RoutineControllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class DailyRoutineController : ControllerBase
+    public class DailyRoutineDefController : ControllerBase
     {
-        private readonly IDailyRoutineUsecase _dailyRoutineUsecase;
-        public DailyRoutineController(IDailyRoutineUsecase dailyRoutineUsecase)
+        private readonly IDailyRoutineDefUsecase _dailyRoutineUsecase;
+        public DailyRoutineDefController(IDailyRoutineDefUsecase dailyRoutineUsecase)
         {
             _dailyRoutineUsecase = dailyRoutineUsecase;
         }

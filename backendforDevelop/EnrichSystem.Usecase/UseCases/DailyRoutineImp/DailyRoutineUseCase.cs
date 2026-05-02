@@ -16,12 +16,12 @@ using System.Threading.Tasks;
 
 namespace EnrichSystem.Usecase.Implementation.DailyRoutineImp
 {
-    public class DailyRoutineUseCase : IDailyRoutineUsecase
+    public class DailyRoutineDefUseCase : IDailyRoutineDefUsecase
     {
         private readonly IDailyRoutineReopository _dbRepo;
         private readonly ILedgerRepository _ledgerRepo;
         private readonly IDailyRoutineRecordService _dailyRoutineRecordService;
-        public DailyRoutineUseCase(
+        public DailyRoutineDefUseCase(
             IDailyRoutineReopository dbRepo,
             ILedgerRepository ledgerRepo,
             IDailyRoutineRecordService dailyRoutineRecordService)

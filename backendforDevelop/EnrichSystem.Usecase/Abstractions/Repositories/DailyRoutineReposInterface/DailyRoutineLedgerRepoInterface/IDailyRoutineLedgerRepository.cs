@@ -20,5 +20,12 @@ namespace EnrichSystem.Usecase.Interfaces.Repositories.DailyRoutineReposInterfac
         public Task<IEnumerable<DailyRoutineLedger>> GetAllLedgers();
 
         public Task<IEnumerable<DailyRoutineLedger>> GetLedgersByIds(IEnumerable<int> ids);
+
+        /// <summary>
+        /// 按照过去的时间获取
+        /// </summary>
+        /// <param name="date">过去的起始时间</param>
+        /// <returns></returns>
+        public Task<IEnumerable<DailyRoutineLedger>> GetLedgersByDate(DateTime date);
     }
 }

@@ -33,7 +33,7 @@ namespace EnrichSystem.Usecase.Services.DailyRoutineRecords
         {
             var ledger = await _dailyRoutineRecordRepository.GetAllLedgers();
             GetAllDailyRoutineRecordsResultDto result = new GetAllDailyRoutineRecordsResultDto();
-            foreach(var i in ledger)
+            foreach (var i in ledger)
             {
                 var record = new DailyRoutineRecordDetailsDto
                 {
@@ -47,6 +47,34 @@ namespace EnrichSystem.Usecase.Services.DailyRoutineRecords
                 };
                 result.DailyRoutineRecords.Add(record);
             }
+            return result;
+        }
+
+        /// <summary>
+        /// 根据日期获取最近的日常记录，默认获取最近7天的记录
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
+        public async Task<GetRecentDailyRoutineRecordsResultDto> GetRecentDailyRoutineRecords(int days = 7)
+        {
+            var recentDate = DateTime.Now.AddDays(-days);
+            var ledgers = await _dailyRoutineRecordRepository.GetLedgersByDate(recentDate);
+
+            var recordDetails = ledgers.Select(i => new DailyRoutineRecordDetailsDto
+            {
+                Id = i.Id,
+                DailyRoutineId = i.DailyRoutineId,
+                Name = i.Name,
+                Date = i.Date,
+                IsCompleted = i.IsCompleted,
+                Amount = i.LedgerAmount,
+                Currency = i.CurrencyType
+            }).ToList();
+
+            var result = new GetRecentDailyRoutineRecordsResultDto
+            {
+                DailyRoutineRecords = recordDetails
+            };
             return result;
         }
     }
